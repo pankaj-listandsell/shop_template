@@ -1,0 +1,1651 @@
+//
+// Digital Marketplace Home
+// -----------------------------------------------------------------------------
+// Standalone stylesheet for layouts/digital-home.blade.php.
+//
+// Deliberately NOT imported into style.scss: `npm run prod` rebuilds every plugin
+// and theme in platform/*/*, which is far too wide a blast radius for a homepage.
+// Compile this one file instead:
+//
+//   npx sass platform/themes/martfury/assets/sass/digital-home.scss \
+//            public/themes/martfury/css/digital-home.css --style=compressed
+//
+// Colours come from the CSS custom properties emitted by partials/header-meta.blade.php,
+// so the page follows Admin -> Theme options -> Style with no edits here.
+//
+
+$dh-ink: #10121a;
+$dh-ink-soft: #5b6172;
+$dh-line: #e6e8ef;
+$dh-tint: #f7f8fb;
+$dh-radius: 14px;
+$dh-radius-sm: 10px;
+
+$dh-bp-sm: 576px;
+$dh-bp-md: 768px;
+$dh-bp-lg: 992px;
+$dh-bp-xl: 1200px;
+
+@mixin dh-up($bp) {
+    @media (min-width: $bp) {
+        @content;
+    }
+}
+
+.digital-home {
+    font-family: var(--primary-font), system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: $dh-ink;
+    // Nothing inside may push the document sideways on small screens.
+    overflow-x: hidden;
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+.dh-container {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 16px;
+
+    @include dh-up($dh-bp-md) {
+        padding-inline: 28px;
+    }
+
+    &--narrow {
+        max-width: 860px;
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Section scaffolding
+// -----------------------------------------------------------------------------
+
+.dh-section {
+    padding-block: 48px;
+
+    @include dh-up($dh-bp-md) {
+        padding-block: 72px;
+    }
+
+    &--tint {
+        background: $dh-tint;
+    }
+
+    &__head {
+        margin-bottom: 28px;
+
+        @include dh-up($dh-bp-md) {
+            margin-bottom: 40px;
+        }
+
+        &--split {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+    }
+
+    &__title {
+        margin: 0;
+        font-size: 26px;
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+
+        @include dh-up($dh-bp-md) {
+            font-size: 34px;
+        }
+    }
+
+    &__sub {
+        margin: 8px 0 0;
+        color: $dh-ink-soft;
+        font-size: 15px;
+    }
+
+    &__more {
+        flex: none;
+        padding: 9px 18px;
+        border: 1px solid $dh-line;
+        border-radius: 999px;
+        color: $dh-ink;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: border-color .2s, color .2s;
+
+        &:hover,
+        &:focus-visible {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Hero
+// -----------------------------------------------------------------------------
+
+.dh-hero {
+    position: relative;
+    padding-block: 56px 64px;
+    background:
+        radial-gradient(1100px 420px at 15% -10%, rgba(255, 255, 255, .10), transparent 60%),
+        linear-gradient(155deg, #171a24 0%, #232839 55%, #2c3040 100%);
+    color: #fff;
+    overflow: hidden;
+
+    @include dh-up($dh-bp-md) {
+        padding-block: 88px 96px;
+    }
+
+    &__inner {
+        max-width: 760px;
+    }
+
+    &__eyebrow {
+        display: inline-block;
+        margin: 0 0 18px;
+        padding: 6px 14px;
+        border: 1px solid rgba(255, 255, 255, .18);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, .06);
+        color: rgba(255, 255, 255, .82);
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: .01em;
+    }
+
+    &__title {
+        margin: 0 0 16px;
+        font-size: 34px;
+        font-weight: 800;
+        line-height: 1.12;
+        letter-spacing: -0.03em;
+        color: #fff;
+
+        @include dh-up($dh-bp-md) {
+            font-size: 52px;
+        }
+
+        @include dh-up($dh-bp-xl) {
+            font-size: 60px;
+        }
+    }
+
+    &__title-accent {
+        color: var(--primary-color);
+    }
+
+    &__lead {
+        max-width: 60ch;
+        margin: 0 0 30px;
+        color: rgba(255, 255, 255, .74);
+        font-size: 16px;
+        line-height: 1.65;
+
+        @include dh-up($dh-bp-md) {
+            font-size: 18px;
+        }
+    }
+
+    // --- search ---------------------------------------------------------------
+
+    &__search {
+        position: relative;
+        display: flex;
+        gap: 8px;
+        padding: 8px;
+        border-radius: $dh-radius;
+        background: #fff;
+        box-shadow: 0 18px 44px rgba(0, 0, 0, .28);
+    }
+
+    &__search-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    &__search-input.form-control {
+        flex: 1 1 auto;
+        min-width: 0;
+        height: 48px;
+        padding: 0 12px;
+        border: 0;
+        background: transparent;
+        color: $dh-ink;
+        font-size: 16px; // 16px stops iOS zooming the page on focus.
+        box-shadow: none;
+
+        &:focus {
+            outline: 0;
+            box-shadow: none;
+        }
+
+        &::placeholder {
+            color: #9aa0b0;
+        }
+    }
+
+    &__search-btn {
+        flex: none;
+        height: 48px;
+        padding-inline: 22px;
+        border: 0;
+        border-radius: $dh-radius-sm;
+        background: var(--primary-color);
+        color: var(--button-text-color, #000);
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: filter .2s;
+
+        &:hover,
+        &:focus-visible {
+            filter: brightness(.94);
+        }
+    }
+
+    // The theme's live-suggestion panel is injected inside the form.
+    .ps-panel--search-result {
+        position: absolute;
+        inset-inline: 0;
+        top: calc(100% + 8px);
+        z-index: 30;
+        max-height: 60vh;
+        overflow-y: auto;
+        border-radius: $dh-radius-sm;
+        background: #fff;
+        color: $dh-ink;
+        box-shadow: 0 18px 44px rgba(0, 0, 0, .22);
+    }
+
+    // --- category pills -------------------------------------------------------
+
+    &__pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        margin: 22px 0 0;
+        padding: 0;
+        list-style: none;
+
+        li a {
+            display: inline-block;
+            padding: 7px 14px;
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: 999px;
+            color: rgba(255, 255, 255, .88);
+            font-size: 14px;
+            text-decoration: none;
+            transition: background .2s, border-color .2s;
+
+            &:hover,
+            &:focus-visible {
+                border-color: var(--primary-color);
+                background: rgba(255, 255, 255, .1);
+            }
+        }
+    }
+
+    &__pills-label {
+        color: rgba(255, 255, 255, .55);
+        font-size: 14px;
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Stats bar
+// -----------------------------------------------------------------------------
+
+.dh-stats {
+    padding-block: 28px;
+    border-bottom: 1px solid $dh-line;
+    background: #fff;
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        @include dh-up($dh-bp-md) {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+    }
+
+    &__item {
+        text-align: center;
+    }
+
+    &__value {
+        display: block;
+        font-size: 28px;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+
+        @include dh-up($dh-bp-md) {
+            font-size: 34px;
+        }
+
+        // Word tiles ("Instant", "Lifetime") stand in for counts that are not yet worth
+        // showing - sized down so they do not read as a number.
+        &--word {
+            color: var(--primary-color);
+            font-size: 22px;
+
+            @include dh-up($dh-bp-md) {
+                font-size: 26px;
+            }
+        }
+    }
+
+    &__label {
+        display: block;
+        margin-top: 4px;
+        color: $dh-ink-soft;
+        font-size: 13px;
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Category grid
+// -----------------------------------------------------------------------------
+
+.dh-categories {
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        @include dh-up($dh-bp-sm) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        @include dh-up($dh-bp-lg) {
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+        }
+    }
+
+    // The card is carried by its illustration now; a 20px icon in a grey circle left
+    // most of the card empty.
+    &__item a {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+        border: 1px solid $dh-line;
+        border-radius: $dh-radius;
+        background: #fff;
+        color: $dh-ink;
+        text-decoration: none;
+        transition: border-color .2s, transform .2s, box-shadow .2s;
+
+        &:hover,
+        &:focus-visible {
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(16, 18, 26, .10);
+        }
+    }
+
+    &__art {
+        display: block;
+        aspect-ratio: 3 / 2;
+        overflow: hidden;
+        background: $dh-tint;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: scale .3s;
+        }
+
+        // Icon fallback when a category has no illustration.
+        i {
+            display: grid;
+            place-items: center;
+            width: 100%;
+            height: 100%;
+            color: var(--primary-color);
+            font-size: 30px;
+        }
+    }
+
+    &__item a:hover &__art img {
+        scale: 1.04;
+    }
+
+    &__body {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        gap: 3px;
+        padding: 12px 14px 14px;
+    }
+
+    &__name {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.3;
+    }
+
+    &__count {
+        color: $dh-ink-soft;
+        font-size: 12px;
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Trending: ranked list
+// A second eight-card grid straight after best sellers gave the page no rhythm.
+// -----------------------------------------------------------------------------
+
+.dh-rank {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0 32px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @include dh-up($dh-bp-md) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    &__item {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid $dh-line;
+
+        &:hover .dh-rank__title {
+            color: var(--primary-color);
+        }
+    }
+
+    &__no {
+        flex: none;
+        width: 26px;
+        color: #c3c8d4;
+        font-size: 15px;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+        text-align: right;
+    }
+
+    // Top three earn the accent.
+    &__item:nth-child(-n + 3) &__no {
+        color: var(--primary-color);
+    }
+
+    &__thumb {
+        flex: none;
+        display: block;
+        width: 60px;
+        height: 46px;
+        overflow: hidden;
+        border: 1px solid $dh-line;
+        border-radius: 8px;
+        background: $dh-tint;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__body {
+        display: flex;
+        flex: 1 1 auto;
+        min-width: 0;
+        flex-direction: column;
+        gap: 1px;
+    }
+
+    &__cat {
+        color: $dh-ink-soft;
+        font-size: 11px;
+        font-weight: 500;
+        text-decoration: none;
+
+        &:hover {
+            color: var(--primary-color);
+        }
+    }
+
+    &__title {
+        overflow: hidden;
+        color: $dh-ink;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.35;
+        text-overflow: ellipsis;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: color .2s;
+    }
+
+    &__price {
+        flex: none;
+        font-size: 14px;
+        font-weight: 700;
+
+        del {
+            display: none; // the row is too tight for a struck-through price
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Product grid + card
+// -----------------------------------------------------------------------------
+
+.dh-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+
+    @include dh-up($dh-bp-md) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    @include dh-up($dh-bp-lg) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+.dh-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid $dh-line;
+    border-radius: $dh-radius;
+    background: #fff;
+    transition: border-color .2s, transform .2s, box-shadow .2s;
+
+    &:hover,
+    &:focus-within {
+        border-color: var(--primary-color);
+        transform: translateY(-3px);
+        box-shadow: 0 14px 34px rgba(16, 18, 26, .10);
+    }
+
+    &__thumb {
+        position: relative;
+        display: block;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        background: $dh-tint;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__type {
+        position: absolute;
+        top: 10px;
+        inset-inline-start: 10px;
+        padding: 4px 9px;
+        border-radius: 999px;
+        background: rgba(16, 18, 26, .82);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+    }
+
+    &__labels {
+        position: absolute;
+        top: 10px;
+        inset-inline-end: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: flex-end;
+    }
+
+    // Revealed on hover, but always reachable by keyboard.
+    &__preview {
+        position: absolute;
+        bottom: 10px;
+        inset-inline-start: 50%;
+        translate: -50% 6px;
+        padding: 7px 16px;
+        border-radius: 999px;
+        background: rgba(16, 18, 26, .88);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity .2s, translate .2s, background .2s;
+
+        &:hover {
+            background: var(--primary-color);
+            color: var(--button-text-color, #000);
+        }
+
+        &:focus-visible {
+            opacity: 1;
+            translate: -50% 0;
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+    }
+
+    &:hover &__preview {
+        opacity: 1;
+        translate: -50% 0;
+    }
+
+    // Coarse pointers get no hover, so keep it visible there.
+    @media (hover: none) {
+        &__preview {
+            opacity: 1;
+            translate: -50% 0;
+        }
+    }
+
+    &__spec {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        font-size: 11px;
+        color: $dh-ink-soft;
+    }
+
+    &__version {
+        padding: 2px 7px;
+        border: 1px solid $dh-line;
+        border-radius: 5px;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+    }
+
+    &__updated {
+        white-space: nowrap;
+    }
+
+    &__label {
+        padding: 4px 9px;
+        border-radius: 999px;
+        background: var(--primary-color);
+        color: var(--button-text-color, #000);
+        font-size: 11px;
+        font-weight: 700;
+
+        &--sale {
+            background: #e0364c;
+            color: #fff;
+        }
+    }
+
+    &__body {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        gap: 7px;
+        padding: 14px;
+    }
+
+    &__cat {
+        color: $dh-ink-soft;
+        font-size: 12px;
+        font-weight: 500;
+        text-decoration: none;
+
+        &:hover {
+            color: var(--primary-color);
+        }
+    }
+
+    &__title {
+        display: -webkit-box;
+        overflow: hidden;
+        color: $dh-ink;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.35;
+        text-decoration: none;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+
+        &:hover {
+            color: var(--primary-color);
+        }
+    }
+
+    &__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        font-size: 12px;
+    }
+
+    &__rating {
+        display: inline-flex;
+        gap: 5px;
+        align-items: center;
+    }
+
+    // Star strip drawn with a gradient so no image or icon font is needed.
+    &__stars {
+        position: relative;
+        display: inline-block;
+        width: 68px;
+        height: 12px;
+        background: linear-gradient(90deg, #dfe2ea 0 100%);
+        -webkit-mask: repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 13.6px);
+        mask: repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 13.6px);
+    }
+
+    &__stars-on {
+        position: absolute;
+        inset: 0;
+        background: #f5a623;
+    }
+
+    &__reviews {
+        color: $dh-ink-soft;
+    }
+
+    &__sales {
+        color: $dh-ink-soft;
+
+        &::before {
+            content: "";
+            display: inline-block;
+            width: 3px;
+            height: 3px;
+            margin-inline-end: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            vertical-align: middle;
+        }
+    }
+
+    &__footer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: auto;
+        padding-top: 10px;
+        border-top: 1px solid $dh-line;
+    }
+
+    &__price {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 700;
+
+        del {
+            margin-inline-start: 6px;
+            color: $dh-ink-soft;
+            font-size: 13px;
+            font-weight: 400;
+        }
+    }
+
+    &__buy {
+        padding: 7px 14px;
+        border-radius: 999px;
+        background: $dh-tint;
+        color: $dh-ink;
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+        text-decoration: none;
+        transition: background .2s, color .2s;
+
+        &:hover,
+        &:focus-visible {
+            background: var(--primary-color);
+            color: var(--button-text-color, #000);
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Header trim
+//
+// The two-bar header was sized for an 88-product electronics catalogue. The bars are
+// NOT merged: the sticky behaviour depends on .header__top being able to go
+// position:fixed on its own while .navigation scrolls away (modules/_header.scss:151),
+// and the same split drives the mobile layout. So the height comes down instead.
+// -----------------------------------------------------------------------------
+
+.header {
+    // 22px -> 14px, about 16px off the top bar.
+    .header__top {
+        padding: 14px 0;
+    }
+
+    // 10px -> 7px on the nav strip.
+    .navigation {
+        padding: 7px 0;
+    }
+
+    // Sticky already runs tighter; leave it alone so nothing jumps on scroll.
+    &.header--sticky .header__top {
+        padding: 10px 0;
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Shop page spacing
+//
+// The stack above the first product was 40px (.mt-40 on the brand wrapper) + 45px
+// (.ps-shop-brand margin-bottom) + 25px of section header, all sized for a much busier
+// electronics catalogue. Scoped to .ps-page--shop so the .mt-40 utility keeps its
+// meaning everywhere else.
+// -----------------------------------------------------------------------------
+
+.ps-page--shop {
+    > .mt-40 {
+        margin-top: 20px !important;
+    }
+
+    .ps-shop-brand {
+        margin-bottom: 24px;
+    }
+
+    .ps-block--shop-features {
+        margin-bottom: 28px;
+
+        .ps-block__header {
+            margin-bottom: 14px;
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Tile variant: the same card used by partials/product-item.blade.php, which every
+// listing in the theme renders inside a <div class="ps-product"> wrapper. That wrapper
+// brings its own padding and border (elements/_product.scss:22), so it is flattened here
+// and the card supplies all the chrome.
+// -----------------------------------------------------------------------------
+
+.ps-product:has(> .dh-card--tile) {
+    padding: 0;
+    border: 0;
+    background: none;
+}
+
+// Carousels give every slide the same height; let the card fill it.
+.ps-product > .dh-card--tile {
+    height: 100%;
+}
+
+.dh-card--tile {
+    position: relative;
+
+    // Hover actions, carried over from the original product-item markup so the
+    // cart / quick-view / wishlist / compare handlers keep working.
+    .dh-card__actions {
+        position: absolute;
+        top: 12px;
+        inset-inline-end: 12px;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        opacity: 0;
+        translate: 8px 0;
+        transition: opacity .2s, translate .2s;
+
+        a {
+            display: grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .95);
+            color: $dh-ink;
+            font-size: 15px;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(16, 18, 26, .16);
+            transition: background .2s, color .2s;
+
+            &:hover,
+            &:focus-visible {
+                background: var(--primary-color);
+                color: var(--button-text-color, #000);
+            }
+        }
+    }
+
+    &:hover .dh-card__actions,
+    &:focus-within .dh-card__actions {
+        opacity: 1;
+        translate: 0 0;
+    }
+
+    @media (hover: none) {
+        .dh-card__actions {
+            opacity: 1;
+            translate: 0 0;
+        }
+    }
+
+    // Labels shift left so they never sit under the action buttons.
+    .dh-card__labels {
+        inset-inline-end: auto;
+        inset-inline-start: 10px;
+        align-items: flex-start;
+    }
+
+    // …which means the Digital pill moves to the opposite corner.
+    .dh-card__type {
+        inset-inline-start: auto;
+        inset-inline-end: 10px;
+    }
+
+    .dh-card__vendor {
+        color: var(--primary-color);
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .dh-card__footer {
+        border-top: 0;
+        padding-top: 4px;
+    }
+}
+
+.dh-card__label--out {
+    background: #6b7280;
+    color: #fff;
+}
+
+// Grid listings: the theme's row has no vertical gutter, so cards in consecutive
+// rows sat edge to edge.
+.ps-shopping-product {
+    .row > [class*="col-"] {
+        margin-bottom: 24px;
+    }
+
+    .ps-product {
+        height: 100%;
+    }
+}
+
+// A one-line title made its card shorter than its neighbours. Reserve both lines so
+// the price row lines up across the row regardless of title length.
+.dh-card--tile .dh-card__title {
+    min-height: 2.7em; // 2 lines at line-height 1.35
+}
+
+// -----------------------------------------------------------------------------
+// Product detail: digital item metadata
+// Injected via the ecommerce_after_product_description filter, so it lives on the
+// product page rather than the homepage - but ships in the same stylesheet.
+// -----------------------------------------------------------------------------
+
+.dh-pmeta {
+    margin: 20px 0;
+    padding: 18px;
+    border: 1px solid $dh-line;
+    border-radius: $dh-radius;
+    background: $dh-tint;
+    font-family: var(--primary-font), system-ui, sans-serif;
+
+    &__preview {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 16px;
+        padding: 10px 20px;
+        border-radius: 999px;
+        background: var(--primary-color);
+        color: var(--button-text-color, #000);
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: filter .2s;
+
+        &:hover,
+        &:focus-visible {
+            filter: brightness(.94);
+            color: var(--button-text-color, #000);
+        }
+    }
+
+    &__specs {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 0;
+    }
+
+    &__row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2px;
+
+        @include dh-up($dh-bp-sm) {
+            grid-template-columns: 160px minmax(0, 1fr);
+            gap: 12px;
+            align-items: baseline;
+        }
+
+        dt {
+            margin: 0;
+            color: $dh-ink-soft;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        dd {
+            margin: 0;
+            color: $dh-ink;
+            font-size: 14px;
+            font-weight: 600;
+        }
+    }
+
+    &__tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    &__tag {
+        padding: 3px 10px;
+        border: 1px solid $dh-line;
+        border-radius: 999px;
+        background: #fff;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    &__included {
+        margin-top: 18px;
+        padding-top: 16px;
+        border-top: 1px solid $dh-line;
+    }
+
+    &__included-title {
+        margin: 0 0 10px;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    &__included-list {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 7px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        @include dh-up($dh-bp-sm) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        li {
+            position: relative;
+            padding-inline-start: 24px;
+            font-size: 14px;
+            line-height: 1.45;
+
+            // Tick drawn in CSS so no icon font is required.
+            &::before {
+                content: "";
+                position: absolute;
+                inset-inline-start: 4px;
+                top: 5px;
+                width: 5px;
+                height: 9px;
+                border: solid var(--primary-color);
+                border-width: 0 2px 2px 0;
+                rotate: 45deg;
+            }
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Testimonials
+// -----------------------------------------------------------------------------
+
+.dh-testimonials {
+    &__grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+
+        @include dh-up($dh-bp-md) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+}
+
+.dh-testimonial {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0;
+    padding: 24px;
+    border: 1px solid $dh-line;
+    border-radius: $dh-radius;
+    background: #fff;
+
+    &__quote {
+        flex: 1 1 auto;
+        margin: 0;
+        color: $dh-ink;
+        font-size: 15px;
+        line-height: 1.65;
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+
+        &::before {
+            content: "\201C";
+            display: block;
+            margin-bottom: 2px;
+            color: var(--primary-color);
+            font-size: 40px;
+            font-weight: 700;
+            line-height: .6;
+        }
+    }
+
+    &__author {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+    &__avatar img {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    &__who {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.35;
+
+        strong {
+            font-size: 14px;
+        }
+
+        small {
+            color: $dh-ink-soft;
+            font-size: 12px;
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------
+// FAQ
+// -----------------------------------------------------------------------------
+
+.dh-faq {
+    // Aside carries the heading, the illustration and the escape hatch; the accordion
+    // gets the full column beside it instead of a narrow centred strip.
+    &__layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 32px;
+        align-items: start;
+
+        @include dh-up($dh-bp-lg) {
+            grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+            gap: 56px;
+        }
+    }
+
+    &__aside {
+        @include dh-up($dh-bp-lg) {
+            position: sticky;
+            top: 24px;
+        }
+
+        .dh-section__title {
+            margin-bottom: 6px;
+        }
+    }
+
+    &__art {
+        display: block;
+        margin: 22px 0;
+        overflow: hidden;
+        border: 1px solid $dh-line;
+        border-radius: $dh-radius;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    &__cta {
+        padding: 18px;
+        border: 1px solid $dh-line;
+        border-radius: $dh-radius;
+        background: $dh-tint;
+    }
+
+    &__cta-text {
+        margin: 0 0 10px;
+        color: $dh-ink;
+        font-size: 14px;
+        line-height: 1.55;
+    }
+
+    &__cta-link {
+        display: inline-flex;
+        gap: 7px;
+        align-items: center;
+        color: $dh-ink;
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 2px;
+        transition: gap .2s, color .2s;
+
+        &:hover,
+        &:focus-visible {
+            gap: 11px;
+            color: var(--primary-color);
+        }
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__item {
+        border: 1px solid $dh-line;
+        border-radius: $dh-radius-sm;
+        background: #fff;
+        transition: border-color .2s;
+
+        &[open] {
+            border-color: var(--primary-color);
+        }
+    }
+
+    &__q {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 15px 18px;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.45;
+        cursor: pointer;
+        list-style: none;
+
+        &::-webkit-details-marker {
+            display: none;
+        }
+
+        &::after {
+            content: "+";
+            flex: none;
+            margin-top: -2px;
+            color: var(--primary-color);
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+    }
+
+    &__q-text {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    // Which group a question belongs to, without splitting the list in four.
+    &__tag {
+        align-self: flex-start;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: $dh-tint;
+        color: $dh-ink-soft;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: .02em;
+        text-transform: uppercase;
+    }
+
+    &__item[open] &__tag {
+        background: var(--primary-color);
+        color: var(--button-text-color, #000);
+    }
+
+    &__item[open] &__q::after {
+        content: "\2212";
+    }
+
+    &__a {
+        padding: 0 18px 16px 18px;
+        color: $dh-ink-soft;
+        font-size: 15px;
+        line-height: 1.65;
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Newsletter
+// -----------------------------------------------------------------------------
+
+.dh-newsletter {
+    &__box {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+        align-items: center;
+        padding: 32px 24px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #171a24 0%, #2c3040 100%);
+        color: #fff;
+
+        @include dh-up($dh-bp-lg) {
+            grid-template-columns: 1.1fr 1fr;
+            padding: 44px 48px;
+        }
+    }
+
+    &__eyebrow {
+        display: inline-block;
+        margin-bottom: 12px;
+        padding: 5px 12px;
+        border: 1px solid rgba(255, 255, 255, .2);
+        border-radius: 999px;
+        color: var(--primary-color);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+    }
+
+    &__title {
+        margin: 0;
+        color: #fff;
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+
+        @include dh-up($dh-bp-md) {
+            font-size: 30px;
+        }
+    }
+
+    &__sub {
+        margin: 10px 0 0;
+        color: rgba(255, 255, 255, .72);
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    &__side {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    // Three short promises under the field, so the box is not just a heading and an input.
+    &__points {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 18px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        li {
+            display: flex;
+            gap: 7px;
+            align-items: center;
+            color: rgba(255, 255, 255, .66);
+            font-size: 13px;
+
+            &::before {
+                content: "";
+                flex: none;
+                width: 5px;
+                height: 9px;
+                border: solid var(--primary-color);
+                border-width: 0 2px 2px 0;
+                rotate: 45deg;
+                translate: 0 -1px;
+            }
+        }
+    }
+
+    &__label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    &__row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 8px;
+        border-radius: $dh-radius;
+        background: #fff;
+
+        .form-control {
+            flex: 1 1 200px;
+            min-width: 0;
+            height: 46px;
+            padding: 0 12px;
+            border: 0;
+            background: transparent;
+            color: $dh-ink;
+            font-size: 16px;
+            box-shadow: none;
+
+            &:focus {
+                outline: 0;
+                box-shadow: none;
+            }
+        }
+    }
+
+    &__btn {
+        flex: none;
+        height: 46px;
+        padding-inline: 22px;
+        border: 0;
+        border-radius: $dh-radius-sm;
+        background: var(--primary-color);
+        color: var(--button-text-color, #000);
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: filter .2s;
+
+        &:hover,
+        &:focus-visible {
+            filter: brightness(.94);
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Footer support block
+//
+// The theme hardcoded "Call us 24/7" above a phone number. Everything here is a
+// download - there is no line to staff - so the block leads with the support address
+// and a response time instead.
+// -----------------------------------------------------------------------------
+
+.ps-footer {
+    .footer-brand__logo {
+        display: inline-block;
+        margin-bottom: 14px;
+
+        img {
+            display: block;
+            width: auto;
+        }
+    }
+
+    .footer-brand__blurb {
+        max-width: 34ch;
+        margin-bottom: 18px;
+        font-size: 14px;
+        line-height: 1.6;
+        opacity: .78;
+    }
+
+    // Support details read as one unit rather than three loose paragraphs.
+    .footer-support {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        margin-bottom: 20px;
+        padding-inline-start: 14px;
+        border-inline-start: 3px solid var(--primary-color);
+    }
+
+    .footer-support__label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        opacity: .6;
+    }
+
+    .footer-support__email {
+        color: inherit;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1.35;
+        text-decoration: none;
+        word-break: break-word;
+
+        &:hover,
+        &:focus-visible {
+            color: var(--primary-color);
+        }
+    }
+
+    .footer-support__note {
+        font-size: 13px;
+        opacity: .7;
+    }
+
+    .footer-support__extra {
+        margin-bottom: 4px;
+        font-size: 13px;
+        opacity: .78;
+    }
+
+    // Plain outline glyphs floating on the background read as leftovers; give them a
+    // target the size of a tap.
+    .ps-list--social {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        li {
+            margin: 0;
+        }
+
+        a {
+            display: grid;
+            place-items: center;
+            width: 38px;
+            height: 38px;
+            border: 1px solid var(--footer-border-color, #e1e1e1);
+            border-radius: 50%;
+            color: inherit;
+            transition: background .2s, border-color .2s, color .2s;
+
+            &:hover,
+            &:focus-visible {
+                border-color: var(--primary-color);
+                background: var(--primary-color);
+                color: var(--button-text-color, #000);
+            }
+
+            svg {
+                width: 18px;
+                height: 18px;
+            }
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------
+// RTL
+// -----------------------------------------------------------------------------
+
+[dir="rtl"] .digital-home {
+    .dh-testimonial__quote::before {
+        content: "\201D";
+    }
+}

@@ -77,7 +77,7 @@
         <div class="ps-section__content">
             <div class="row">
                 @for ($i = 0; $i < 6; $i++)
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
                         <div class="ps-product skeleton-product-item">
                             <div class="skeleton-product-image skeleton-loading"></div>
                             <div class="skeleton-product-title skeleton-loading"></div>

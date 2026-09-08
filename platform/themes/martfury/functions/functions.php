@@ -35,6 +35,7 @@ app()->booted(function (): void {
             'blog-sidebar' => __('Blog Sidebar'),
             'full-width' => __('Full width'),
             'homepage' => __('Homepage'),
+            'digital-home' => __('Digital Marketplace Home'),
             'coming-soon' => __('Coming soon'),
         ]);
     });

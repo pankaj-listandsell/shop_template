@@ -19,7 +19,7 @@
                     @if (is_plugin_active('ecommerce'))
                         <div class="header__left">
                             <div class="menu--product-categories">
-                                <div class="menu__toggle"><i class="icon-menu"></i><span> {{ __('Shop by Department') }}</span></div>
+                                <div class="menu__toggle"><i class="icon-menu"></i><span> {{ __('Browse categories') }}</span></div>
                                 <div class="menu__content" style="display: none">
                                     <ul class="menu--dropdown">
                                         @php
@@ -42,7 +42,7 @@
                                         {!! ProductCategoryHelper::renderProductCategoriesSelect() !!}
                                     </select>
                                 </div>
-                                <input class="form-control input-search-product" name="q" type="text" placeholder="{{ __("I'm shopping for...") }}" autocomplete="off">
+                                <input class="form-control input-search-product" name="q" type="text" placeholder="{{ __('Search themes, plugins, UI kits…') }}" autocomplete="off">
                                 <div class="spinner-icon">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>
@@ -88,7 +88,7 @@
                 <div class="ps-container">
                     <div class="navigation__left">
                         <div class="menu--product-categories">
-                            <div class="menu__toggle"><i class="icon-menu"></i><span> {{ __('Shop by Department') }}</span></div>
+                            <div class="menu__toggle"><i class="icon-menu"></i><span> {{ __('Browse categories') }}</span></div>
                             <div class="menu__content" style="display: none">
                                 <ul class="menu--dropdown">
                                     {!! $categoriesDropdown ?? null !!}
@@ -176,7 +176,7 @@
                 <div class="ps-panel__header">
                     <form class="ps-form--search-mobile" action="{{ route('public.products') }}" data-ajax-url="{{ route('public.ajax.search-products') }}" method="get">
                         <div class="form-group--nest position-relative">
-                            <input class="form-control input-search-product" name="q" value="{{ BaseHelper::stringify(request()->query('q')) }}" type="text" autocomplete="off" placeholder="{{ __('Search something...') }}">
+                            <input class="form-control input-search-product" name="q" value="{{ BaseHelper::stringify(request()->query('q')) }}" type="text" autocomplete="off" placeholder="{{ __('Search themes, plugins, UI kits…') }}">
                             <div class="spinner-icon">
                                 <i class="fa fa-spin fa-spinner"></i>
                             </div>

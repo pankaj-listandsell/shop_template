@@ -2,16 +2,58 @@
         <div class="ps-container">
             <div class="ps-footer__widgets">
                 @if (theme_option('hotline') || theme_option('address') || theme_option('email') || theme_option('social-name-1'))
-                    <aside class="widget widget_footer widget_contact-us">
-                        <h4 class="widget-title">{{ __('Contact us') }}</h4>
-                        <div class="widget_content">
-                            @if (theme_option('hotline'))
-                                <p>{{ __('Call us 24/7') }}</p>
-                                <h3>{{ theme_option('hotline') }}</h3>
+                    {{--
+                        The footer's first column: who this is, then how to reach us.
+                        Everything sold here is a download, so there is no phone line to
+                        staff and no counter to visit - the hotline and address only render
+                        when actually filled in, replacing the theme's hardcoded
+                        "Call us 24/7" above a demo number.
+                    --}}
+                    <aside class="widget widget_footer widget_contact-us footer-brand">
+                        @php
+                            // The header logo sets "Template" in white so it reads on the
+                            // yellow bar - on this white footer that half disappears. Use the
+                            // light-background variant when it exists, else fall back to the
+                            // theme logo so an uploaded logo still shows.
+                            $footerLogo = file_exists(public_path('storage/general/logo-on-light.png'))
+                                ? 'general/logo-on-light.png'
+                                : null;
+                        @endphp
+                        <a class="footer-brand__logo" href="{{ BaseHelper::getHomepageUrl() }}">
+                            @if ($footerLogo)
+                                {{--
+                                    Botble's settings store keeps values HTML-encoded, so the
+                                    site title arrives as "Themes &amp;amp; plugins". Blade
+                                    would escape it a second time inside the attribute; decode
+                                    once so the alt text reads correctly.
+                                --}}
+                                <img src="{{ RvMedia::getImageUrl($footerLogo) }}" alt="{{ html_entity_decode(theme_option('site_title') ?: config('app.name'), ENT_QUOTES, 'UTF-8') }}" style="max-height: 34px">
+                            @else
+                                {!! Theme::getLogoImage(['style' => 'max-height: 34px']) !!}
                             @endif
-                            <p>{{ theme_option('address') }} <br><a href="mailto:{{ theme_option('email') }}">{{ theme_option('email') }}</a></p>
-                            {!! Theme::partial('social-links') !!}
-                        </div>
+                        </a>
+
+                        <p class="footer-brand__blurb">
+                            {{ __('Themes and plugins built in-house, delivered the moment you buy, and updated for life.') }}
+                        </p>
+
+                        @if (theme_option('email'))
+                            <div class="footer-support">
+                                <span class="footer-support__label">{{ __('Support') }}</span>
+                                <a class="footer-support__email" href="mailto:{{ theme_option('email') }}">{{ theme_option('email') }}</a>
+                                <span class="footer-support__note">{{ __('We reply within one working day') }}</span>
+                            </div>
+                        @endif
+
+                        @if (theme_option('hotline'))
+                            <p class="footer-support__extra">{{ theme_option('hotline') }}</p>
+                        @endif
+
+                        @if (theme_option('address'))
+                            <p class="footer-support__extra">{{ theme_option('address') }}</p>
+                        @endif
+
+                        {!! Theme::partial('social-links') !!}
                     </aside>
                 @endif
                 {!! dynamic_sidebar('footer_sidebar') !!}
@@ -86,7 +128,7 @@
         <div class="ps-search" id="site-search"><a class="ps-btn--close" href="#"></a>
             <div class="ps-search__content">
                 <form class="ps-form--primary-search" action="{{ route('public.products') }}" data-ajax-url="{{ route('public.ajax.search-products') }}" method="get">
-                    <input class="form-control input-search-product" name="q" value="{{ BaseHelper::stringify(request()->query('q')) }}" type="text" autocomplete="off" placeholder="{{ __('Search for...') }}">
+                    <input class="form-control input-search-product" name="q" value="{{ BaseHelper::stringify(request()->query('q')) }}" type="text" autocomplete="off" placeholder="{{ __('Search themes, plugins, UI kits…') }}">
                     <div class="spinner-icon">
                         <i class="fa fa-spin fa-spinner"></i>
                     </div>

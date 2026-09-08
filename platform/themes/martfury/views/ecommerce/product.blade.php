@@ -102,7 +102,14 @@
 
                                     {!! render_product_options($product) !!}
 
-                                    <div class="number-items-available mb-3">
+                                    @php
+                                        // A downloadable item is never "3 in stock" and is never bought by the
+                                        // handful, so the stock line and the quantity stepper are hidden for it.
+                                        $isDigitalItem = function_exists('martfury_digital_home_is_digital')
+                                            && martfury_digital_home_is_digital($product);
+                                    @endphp
+
+                                    <div class="number-items-available mb-3" @if ($isDigitalItem) hidden @endif>
                                         @if ($product->isOutOfStock())
                                             <span class="text-danger">({{ __('Out of stock') }})</span>
                                         @else
@@ -133,14 +140,19 @@
                                     {!! apply_filters(ECOMMERCE_PRODUCT_DETAIL_EXTRA_HTML, null, $product) !!}
                                     <div class="ps-product__shopping">
                                         @if (EcommerceHelper::isCartEnabled())
-                                            <figure>
-                                                <figcaption>{{ __('Quantity') }}</figcaption>
-                                                <div class="form-group--number product__qty">
-                                                    <button class="up" type="button" aria-label="{{ __('Increase quantity') }}"><i class="icon-plus" aria-hidden="true"></i></button>
-                                                    <button class="down" type="button" aria-label="{{ __('Decrease quantity') }}"><i class="icon-minus" aria-hidden="true"></i></button>
-                                                    <input class="form-control qty-input" type="number" name="qty" value="1" placeholder="1" min="1">
-                                                </div>
-                                            </figure>
+                                            @if ($isDigitalItem)
+                                                {{-- The cart script still reads qty, so keep the field - just not the stepper. --}}
+                                                <input type="hidden" name="qty" class="qty-input" value="1">
+                                            @else
+                                                <figure>
+                                                    <figcaption>{{ __('Quantity') }}</figcaption>
+                                                    <div class="form-group--number product__qty">
+                                                        <button class="up" type="button" aria-label="{{ __('Increase quantity') }}"><i class="icon-plus" aria-hidden="true"></i></button>
+                                                        <button class="down" type="button" aria-label="{{ __('Decrease quantity') }}"><i class="icon-minus" aria-hidden="true"></i></button>
+                                                        <input class="form-control qty-input" type="number" name="qty" value="1" placeholder="1" min="1">
+                                                    </div>
+                                                </figure>
+                                            @endif
                                             <input type="hidden" name="id" class="hidden-product-id" value="{{ ($product->is_variation || !$product->defaultVariation->product_id) ? $product->id : $product->defaultVariation->product_id }}"/>
 
                                             <button class="ps-btn ps-btn--black add-to-cart-button @if ($product->isOutOfStock()) btn-disabled @endif" type="submit" name="add_to_cart" value="1" {!! EcommerceHelper::jsAttributes('add-to-cart', $product, additional: ['data-bb-toggle' => 'none']) !!} @if ($product->isOutOfStock()) disabled @endif>{{ __('Add to cart') }}</button>
@@ -311,15 +323,15 @@
                          data-owl-auto="true"
                          data-owl-loop="false"
                          data-owl-speed="10000"
-                         data-owl-gap="0"
+                         data-owl-gap="20"
                          data-owl-nav="false"
                          data-owl-dots="true"
-                         data-owl-item="7"
-                         data-owl-item-xs="2"
+                         data-owl-item="4"
+                         data-owl-item-xs="1"
                          data-owl-item-sm="2"
-                         data-owl-item-md="3"
-                         data-owl-item-lg="4"
-                         data-owl-item-xl="6"
+                         data-owl-item-md="2"
+                         data-owl-item-lg="3"
+                         data-owl-item-xl="4"
                          data-owl-duration="1000"
                          data-owl-mousedrag="on"
                     >

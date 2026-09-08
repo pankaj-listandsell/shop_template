@@ -29,7 +29,7 @@
         <div class="ps-search--mobile">
             <form class="ps-form--search-mobile" action="{{ route('public.products') }}" data-ajax-url="{{ route('public.ajax.search-products') }}" method="get">
                 <div class="form-group--nest position-relative">
-                    <input class="form-control input-search-product" name="q" value="{{ BaseHelper::stringify(request()->query('q')) }}" type="text" autocomplete="off" placeholder="{{ __('Search something...') }}">
+                    <input class="form-control input-search-product" name="q" value="{{ BaseHelper::stringify(request()->query('q')) }}" type="text" autocomplete="off" placeholder="{{ __('Search themes, plugins, UI kits…') }}">
                     <div class="spinner-icon">
                         <i class="fa fa-spin fa-spinner"></i>
                     </div>

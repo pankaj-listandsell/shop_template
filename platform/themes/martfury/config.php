@@ -54,6 +54,10 @@ return [
             $theme->asset()->usePath()->add('fontawesome', 'plugins/font-awesome/css/font-awesome.min.css');
             $theme->asset()->usePath()->add('style', 'css/style.css', [], [], $version);
 
+            // Digital marketplace homepage. Built separately from style.css - see the header
+            // comment in assets/sass/digital-home.scss for the compile command.
+            $theme->asset()->usePath()->add('digital-home', 'css/digital-home.css', ['style'], [], $version);
+
             if (BaseHelper::isRtlEnabled()) {
                 $theme->asset()->usePath()->add('rtl', 'css/rtl.css', [], [], $version);
             }
@@ -84,6 +88,9 @@ return [
                 ->add('masonry-js', 'plugins/masonry.pkgd.min.js', ['jquery']);
 
             $theme->asset()->container('footer')->usePath()->add('main', 'js/main.js', ['jquery'], [], $version);
+            // Live-preview badges appear on every product listing, not just the homepage.
+            $theme->asset()->container('footer')->usePath()
+                ->add('digital-home', 'js/digital-home.js', [], [], $version);
             $theme->asset()->container('footer')->usePath()
                 ->add('backend', 'js/backend.js', ['jquery'], [], $version);
 

@@ -18,13 +18,14 @@
                  data-owl-mousedrag="on"
             >
                 @foreach(get_featured_brands() as $brand)
-                    @if($brand->website)
-                        <a href="{{ $brand->website }}">
-                    @endif
-                    <img src="{{ RvMedia::getImageUrl($brand->logo, null, false, RvMedia::getDefaultImage()) }}" alt="{{ $brand->name }}" loading="lazy"/>
-                    @if($brand->website)
-                        </a>
-                    @endif
+                    {{--
+                        Brands are used here as platform badges (Elementor, Shopify, Figma…),
+                        so the logo links to that platform's own product listing rather than
+                        to an external site. $brand->website still wins when one is set.
+                    --}}
+                    <a href="{{ $brand->website ?: $brand->url }}" title="{{ __('Browse :name items', ['name' => $brand->name]) }}">
+                        <img src="{{ RvMedia::getImageUrl($brand->logo, null, false, RvMedia::getDefaultImage()) }}" alt="{{ $brand->name }}" loading="lazy"/>
+                    </a>
                 @endforeach
             </div>
         </div>
@@ -63,15 +64,15 @@
                                  data-owl-auto="true"
                                  data-owl-loop="false"
                                  data-owl-speed="10000"
-                                 data-owl-gap="0"
+                                 data-owl-gap="20"
                                  data-owl-nav="false"
                                  data-owl-dots="true"
-                                 data-owl-item="7"
-                                 data-owl-item-xs="2"
+                                 data-owl-item="4"
+                                 data-owl-item-xs="1"
                                  data-owl-item-sm="2"
-                                 data-owl-item-md="3"
-                                 data-owl-item-lg="4"
-                                 data-owl-item-xl="6"
+                                 data-owl-item-md="2"
+                                 data-owl-item-lg="3"
+                                 data-owl-item-xl="4"
                                  data-owl-duration="1000"
                                  data-owl-mousedrag="on"
                             >
