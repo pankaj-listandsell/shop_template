@@ -463,6 +463,143 @@ $dh-bp-xl: 1200px;
 }
 
 // -----------------------------------------------------------------------------
+// Alternating image / content rows
+// -----------------------------------------------------------------------------
+
+.dh-features {
+    .dh-feature + .dh-feature {
+        margin-top: 48px;
+
+        @include dh-up($dh-bp-lg) {
+            margin-top: 72px;
+        }
+    }
+}
+
+.dh-feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 26px;
+    align-items: center;
+
+    @include dh-up($dh-bp-lg) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 56px;
+    }
+
+    // Only the column order flips; the markup stays image-then-text so mobile and
+    // screen readers keep the same reading order in both rows.
+    &--reverse {
+        @include dh-up($dh-bp-lg) {
+            .dh-feature__media {
+                order: 2;
+            }
+
+            .dh-feature__body {
+                order: 1;
+            }
+        }
+    }
+
+    &__media {
+        overflow: hidden;
+        border: 1px solid $dh-line;
+        border-radius: $dh-radius;
+        background: $dh-tint;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    &__eyebrow {
+        display: inline-block;
+        margin-bottom: 12px;
+        padding: 5px 12px;
+        border-radius: 999px;
+        background: $dh-tint;
+        color: $dh-ink-soft;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+    }
+
+    &__title {
+        margin: 0 0 12px;
+        font-size: 26px;
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+
+        @include dh-up($dh-bp-md) {
+            font-size: 32px;
+        }
+    }
+
+    &__text {
+        max-width: 52ch;
+        margin: 0 0 18px;
+        color: $dh-ink-soft;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    &__points {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 9px;
+        margin: 0 0 22px;
+        padding: 0;
+        list-style: none;
+
+        @include dh-up($dh-bp-sm) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        li {
+            position: relative;
+            padding-inline-start: 24px;
+            font-size: 14px;
+            line-height: 1.5;
+
+            &::before {
+                content: "";
+                position: absolute;
+                inset-inline-start: 4px;
+                top: 5px;
+                width: 5px;
+                height: 9px;
+                border: solid var(--primary-color);
+                border-width: 0 2px 2px 0;
+                rotate: 45deg;
+            }
+        }
+    }
+
+    &__link {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        padding-bottom: 3px;
+        border-bottom: 2px solid var(--primary-color);
+        color: $dh-ink;
+        font-size: 15px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: gap .2s, color .2s;
+
+        &:hover,
+        &:focus-visible {
+            gap: 12px;
+            color: var(--primary-color);
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------
 // Trending: ranked list
 // A second eight-card grid straight after best sellers gave the page no rhythm.
 // -----------------------------------------------------------------------------

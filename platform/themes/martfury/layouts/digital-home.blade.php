@@ -13,6 +13,8 @@
     {!! Theme::partial('home.categories') !!}
     {!! Theme::partial('home.best-sellers') !!}
     {!! Theme::partial('home.trending') !!}
+    {{-- Products first, then why buy them here. --}}
+    {!! Theme::partial('home.features') !!}
     {!! Theme::partial('home.testimonials') !!}
     {!! Theme::partial('home.faq') !!}
     {!! Theme::partial('home.newsletter') !!}
